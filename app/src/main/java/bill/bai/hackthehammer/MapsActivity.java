@@ -53,6 +53,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 "Yes",
                 new LatLng(43.257165, -79.900799)
         ));
+        mapObjects.add(new MapObject(
+                "McMaster",
+                "Bad stuff",
+                "Yes",
+                new LatLng(43.267165, -79.900799)
+        ));
+        mapObjects.add(new MapObject(
+                "McMaster",
+                "Bad stuff",
+                "Yes",
+                new LatLng(43.257165, -79.910799)
+        ));
+        mapObjects.add(new MapObject(
+                "McMaster",
+                "Bad stuff",
+                "Yes",
+                new LatLng(43.247165, -79.900799)
+        ));
 
 //
 //        // Add a marker in Sydney and move the camera
@@ -73,13 +91,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void reportButton(View f){
-        System.out.println("FUCK");
     }
 
     /**
      * Draws a heatmap on the map
      */
-    private void drawHeatMap(GoogleMap googleMap){
+    private void drawHeatMap(GoogleMap googleMap, List<MapObject> mapObjects){
+
+        List<LatLng> locations = new ArrayList<>();
+        for(int x = 0; x < mapObjects.size(); x++){
+            locations.add(mapObjects.get(x).getLatLng());
+        }
 
     }
 }
