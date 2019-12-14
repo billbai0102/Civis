@@ -2,9 +2,13 @@ package bill.bai.hackthehammer;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -73,6 +78,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void reportButton(View f){
+        Intent intent = new Intent(MapsActivity.this, ReportActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     /**
