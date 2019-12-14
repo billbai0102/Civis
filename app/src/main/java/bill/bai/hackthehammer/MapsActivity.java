@@ -73,7 +73,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void reportButton(View f){
-        System.out.println("FUCK");
     }
 
     /**

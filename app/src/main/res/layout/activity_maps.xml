@@ -18,22 +18,19 @@
         tools:layout_editor_absoluteX="-130dp"
         tools:layout_editor_absoluteY="-45dp" />
 
-    <ImageButton
+    <Button
         android:id="@+id/imageButton"
         android:onClick="reportButton"
         android:scaleX="0.75"
         android:scaleY="0.75"
         android:layout_width="83dp"
         android:layout_height="87dp"
-        android:layout_row="0"
-        android:layout_column="1"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="18dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/reportbutton"
+        android:background="@drawable/report_button"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
