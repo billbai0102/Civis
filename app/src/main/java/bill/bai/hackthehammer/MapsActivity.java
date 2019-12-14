@@ -11,6 +11,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -45,5 +48,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
-    //
+    //TODO:
+    public static ArrayList<MapObject> mapObjects = new ArrayList<MapObject>();
+    /**
+     * Draws a heatmap on the map
+     */
+    private void drawHeatMap(GoogleMap googleMap){
+
+    }
 }
