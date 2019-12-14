@@ -1,5 +1,6 @@
 package bill.bai.hackthehammer;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -86,7 +87,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivityForResult(intent, 0);
+            System.out.println("1231242483748274823748237423");
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
