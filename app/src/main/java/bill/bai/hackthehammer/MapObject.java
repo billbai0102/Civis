@@ -28,4 +28,8 @@ public class MapObject {
     public String getCategory() {
         return category;
     }
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
 }

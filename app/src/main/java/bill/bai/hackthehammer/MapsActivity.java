@@ -2,7 +2,9 @@ package bill.bai.hackthehammer;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +19,9 @@ import java.util.List;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
+    //TODO: Yes
+    public static ArrayList<MapObject> mapObjects = new ArrayList<MapObject>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +47,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(43.257165, -79.900799);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("McMaster"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mapObjects.add(new MapObject(
+                "McMaster",
+                "Bad stuff",
+                "Yes",
+                new LatLng(43.257165, -79.900799)
+        ));
+
+//
+//        // Add a marker in Sydney and move the camera
+//        LatLng sydney = new LatLng(43.257165, -79.900799);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("McMaster"));
+
+
+        plotPoints(mMap, mapObjects);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.257165, -79.900799), 13));
     }
 
-    //TODO:
-    public static ArrayList<MapObject> mapObjects = new ArrayList<MapObject>();
+    public void plotPoints(GoogleMap googleMap, List<MapObject> mapObjects){
+        mMap = googleMap;
+
+        for(int x = 0; x < mapObjects.size(); x++){
+            mMap.addMarker(new MarkerOptions().position(mapObjects.get(x).getLatLng()).title(mapObjects.get(x).getName()));
+        }
+    }
+
+    public void reportButton(View f){
+        System.out.println("FUCK");
+    }
+
     /**
      * Draws a heatmap on the map
      */
