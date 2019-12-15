@@ -252,7 +252,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         return false;
     }
 
-    public void onButtonShowPopupWindow(View view, String text, String title, String cat) {
+    public void onButtonShowPopupWindow(View view, String text, String title, String category) {
 
         mMap.moveCamera(CameraUpdateFactory.zoomIn());
 
@@ -265,7 +265,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         TextView e = popupView.findViewById(R.id.title);
         e.setText(title);
         TextView x = popupView.findViewById(R.id.category);
-        x.setText(cat);
+        x.setText(category);
+
+        /*
+
+
+        URL url = new URL("https://cdn.cms.prod.nypr.digital/images/subwayduck120419.2e16d0ba.fill-661x496.jpg");
+        Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        imageView.setImageBitmap(bmp);
+
+
+         */
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -274,13 +284,21 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        popupView.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+            // TODO Show unshow image based on R/L swipes
+            public void onSwipeRight() {
+                // Show image
+                System.out.println("R swipe");
+            }
+            public void onSwipeLeft() {
+                // Hide image
+                System.out.println("L swipe");
+            }
+
+            // Dismiss when swipped down
+            public void onSwipeBottom() {
                 mMap.moveCamera(CameraUpdateFactory.zoomOut());
                 popupWindow.dismiss();
-                return true;
             }
         });
     }

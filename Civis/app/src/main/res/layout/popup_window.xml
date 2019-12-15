@@ -6,7 +6,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.9"
+        android:alpha="0.95"
         android:background="@drawable/dangerbackground"/>
 
     <TextView
@@ -30,6 +30,15 @@
         android:text="Category"
         android:textSize="20sp"
         android:textStyle="bold"/>
+
+
+<!--    <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:background="@drawable/mainscreen"-->
+<!--            android:layout_below="@id/category"-->
+<!--            android:scaleType="fitCenter"-->
+<!--    />-->
 
     <TextView
         android:id="@+id/popuptext"
