@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class API {
@@ -90,7 +91,7 @@ public class API {
 
                 OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
 
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
                 writer.write(data);
                 writer.flush();
                 writer.close();
@@ -124,6 +125,7 @@ public class API {
 
                 arguments.put("latitude", String.valueOf(mapObject.getLatitude()));
                 arguments.put("longitude", String.valueOf(mapObject.getLongitude()));
+                arguments.put("imageUrl", String.valueOf(mapObject.getImageUrl()));
 
                 StringJoiner sj = new StringJoiner("&");
                 for(Map.Entry<String, String> entry : arguments.entrySet())

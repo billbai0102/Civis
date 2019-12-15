@@ -34,34 +34,34 @@ public class ReportActivity extends AppCompatActivity implements AdapterView.OnI
 
         setContentView(R.layout.report_layout);
 
-        Spinner spinner = (Spinner)findViewById(R.id.report_type_dropdown);
+        Spinner spinner = findViewById(R.id.report_type_dropdown);
         spinner.setOnItemSelectedListener(this);
 
         if (Build.VERSION.SDK_INT > 15) {
             addNotifBar();
         }
 
-        TextView txH = (TextView)findViewById(R.id.report_heading);
+        TextView txH = findViewById(R.id.report_heading);
         Typeface custom_font1 = Typeface.createFromAsset(getAssets(),  "fonts/HelveticaNeue_Medium.ttf");
         txH.setTypeface(custom_font1);
 
-        TextView txT = (TextView)findViewById(R.id.report_title);
+        TextView txT = findViewById(R.id.report_title);
         Typeface custom_font2 = Typeface.createFromAsset(getAssets(),  "fonts/HelveticaNeue_Light.ttf");
         txT.setTypeface(custom_font2);
 
-        EditText etxT = (EditText)findViewById(R.id.report_title_edit);
+        EditText etxT = findViewById(R.id.report_title_edit);
         etxT.setTypeface(custom_font2);
 
-        TextView rtxT = (TextView)findViewById(R.id.report_type);
+        TextView rtxT = findViewById(R.id.report_type);
         rtxT.setTypeface(custom_font2);
 
-        TextView authT = (TextView)findViewById(R.id.auth_present);
+        TextView authT = findViewById(R.id.auth_present);
         authT.setTypeface(custom_font2);
 
-        TextView descT = (TextView)findViewById(R.id.description_title);
+        TextView descT = findViewById(R.id.description_title);
         descT.setTypeface(custom_font2);
 
-        EditText descE = (EditText)findViewById(R.id.description);
+        EditText descE = findViewById(R.id.description);
         descE.setTypeface(custom_font2);
 
         //get the spinner from the xml.
@@ -112,11 +112,11 @@ public class ReportActivity extends AppCompatActivity implements AdapterView.OnI
     }
 
     public void send_report(View f){
-        EditText etxT = (EditText)findViewById(R.id.report_title_edit);
+        EditText etxT = findViewById(R.id.report_title_edit);
         String title = etxT.getText().toString();
-        CheckBox chkbox = (CheckBox) findViewById(R.id.auth_checkbox);
+        CheckBox chkbox = findViewById(R.id.auth_checkbox);
         boolean is_auth_present = chkbox.isChecked();
-        EditText descT = (EditText)findViewById(R.id.description);
+        EditText descT = findViewById(R.id.description);
 
         String description = descT.getText().toString();
 
@@ -136,12 +136,13 @@ public class ReportActivity extends AppCompatActivity implements AdapterView.OnI
          */
         ArrayList<MapObject> testPost = new ArrayList<>();
         // "Takes out current location"
-        testPost.add(new MapObject(title, description, typeSelected, 43.257009, -79.900810));
+        // TODO camera image
+        testPost.add(new MapObject(title, description, typeSelected, 43.257009, -79.900810, ""));
 
         API.postData(testPost);
 
 
-        Intent intent = new Intent(ReportActivity.this, MapsActivity.class);
+        Intent intent = new Intent(ReportActivity.this, MainActivity.class);
         startActivityForResult(intent, 0);
 
         Toast toast = Toast.makeText(getApplicationContext(), "Report Submitted", Toast.LENGTH_LONG);

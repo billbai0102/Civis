@@ -7,6 +7,7 @@ public class MapObject {
     private String name;
     private String description;
     private String category;
+    private String imageUrl;
 
     private double latitude;
     private double longitude;
@@ -14,20 +15,22 @@ public class MapObject {
     public Marker marker;
 
 
-    public MapObject(String name, String description, String category, LatLng latLng){
+    public MapObject(String name, String description, String category, LatLng latLng, String imgUrl){
         this.name = name;
         this.description = description;
         this.category = category;
         this.latitude = latLng.latitude;
         this.longitude = latLng.longitude;
+        this.imageUrl = imgUrl;
     }
 
-    public MapObject(String name, String description, String category, double latitude, double longitude){
+    public MapObject(String name, String description, String category, double latitude, double longitude, String imgUrl){
         this.name = name;
         this.description = description;
         this.category = category;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.imageUrl = imgUrl;
     }
 
     public void setName(String name) {
@@ -72,5 +75,14 @@ public class MapObject {
 
     public LatLng getLatLng() {
         return new LatLng(latitude, longitude);
+    }
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

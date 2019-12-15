@@ -2,17 +2,28 @@ package bill.bai.civis;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.Handler;
+import android.view.*;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 
 import android.util.Log;
 
 import androidx.core.view.GravityCompat;
 
-import android.view.MenuItem;
-
+import androidx.fragment.app.FragmentActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.*;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -20,12 +31,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.Menu;
+import com.google.maps.android.heatmaps.Gradient;
+import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
-// https://script.google.com/macros/s/AKfycbzQBYHI41CKOZBdN82Ul5hOiLOcOc4V5bDW0lMCNbyCWKgqzuo/exec
+import java.util.*;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     // This is called upon application start
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -35,37 +46,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show());
-
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
-
         // Fetch API data
         System.out.println("Fetching API data");
-        MapsActivity.fetchAPIData();
+        fetchAPIData();
 
-//        ArrayList<MapObject> mapObjects = API.fetchData();
-//
-//        for (MapObject mapObject : mapObjects) {
-//            System.out.println(mapObject.getName());
-//            System.out.println(mapObject.getLatitude() + 1);
-//        }
-//
-//        ArrayList<MapObject> testPost = new ArrayList<>();
-//        testPost.add(new MapObject("Yay", "CREEPER", "AWWW MAN, SO WE BACK IN THE MINE", 69, 420));
-//        API.postData(testPost);
-
-        // Load home page
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
             String newToken = instanceIdResult.getToken();
             Log.e("newToken", newToken);
@@ -74,72 +58,301 @@ public class MainActivity extends AppCompatActivity
 
         Log.d("newToken", this.getPreferences(Context.MODE_PRIVATE).getString("fb", "empty :("));
 
+
         // Keep this last
         System.out.println("Loading maps");
 
-        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-        startActivity(intent);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        // Start the data auto refresh timer
+        updateDataAsyncTask();
     }
 
 
+    private GoogleMap mMap;
+    private HeatmapTileProvider mProvider;
+    private TileOverlay mOverlay;
+    private boolean isHeatMap = true;
 
+    public static ArrayList<MapObject> mapObjects = new ArrayList<>();
+
+    public static void fetchAPIData() {
+        try {
+            System.out.println("Fetching API data");
+
+            mapObjects.clear();
+            ArrayList<MapObject> objects = API.fetchData();
+            mapObjects.addAll(objects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateDataAsyncTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(MainActivity::fetchAPIData);
+            }
+        };
+
+        timer.schedule(task, 60 * 1000, 60 * 1000);  // Every 1 minute
+    }
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        // plotPoints(mMap, mapObjects);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.257165, -79.900799), 13));
+        drawHeatMap(mMap, mapObjects);
+        plotPoints(mMap, mapObjects);
+    }
+
+    public void plotPoints(GoogleMap googleMap, List<MapObject> mapObjects) {
+        mMap = googleMap;
+
+        for (MapObject mapObject : mapObjects) {
+            float color;
+            switch (mapObject.getCategory()) {
+                case "Emergency":
+                    color = BitmapDescriptorFactory.HUE_RED;
+                    break;
+                case "Criminal Activity":
+                    color = BitmapDescriptorFactory.HUE_ORANGE;
+                    break;
+                case "Fire":
+                    color = BitmapDescriptorFactory.HUE_VIOLET;
+                    break;
+                case "Natural":
+                    color = BitmapDescriptorFactory.HUE_BLUE;
+                    break;
+                default:
+                    color = BitmapDescriptorFactory.HUE_AZURE;
+                    break;
+            }
+
+
+            Marker marker = mMap.addMarker(new MarkerOptions().
+                    position(mapObject
+                            .getLatLng())
+                    .title(mapObject
+                            .getName())
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(color)
+                    )
+            );
+
+            mapObject.marker = marker;
+        }
+
+        mMap.setOnMarkerClickListener(this);
+    }
+
+
+    public void reportButton(View f) {
+        Intent intent = new Intent(MainActivity.this, ReportActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    public void toggleButton(View f) {
+        isHeatMap = !isHeatMap;
+        mMap.clear();
+
+
+        if (isHeatMap) {
+            plotPoints(mMap, mapObjects);
+            drawHeatMap(mMap, mapObjects);
         } else {
-            super.onBackPressed();
+            drawDangerMap();
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
+    /**
+     * Draws a heatmap on the map
+     */
+    public void drawHeatMap(GoogleMap googleMap, List<MapObject> mapObjects) {
+        if (mapObjects.size() == 0)
+            return;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        mMap = googleMap;
+        int[] gradientColors = {
+                Color.rgb(195, 107, 0),
+                Color.rgb(207, 0, 0)
+        };
+        float[] gradientStartPoints = {
+                0.8f,
+                1f
+        };
+        Gradient gradient = new Gradient(gradientColors, gradientStartPoints);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        List<LatLng> locations = new ArrayList<>();
+        for (MapObject mapObject : mapObjects) {
+            locations.add(mapObject.getLatLng());
         }
 
-        return super.onOptionsItemSelected(item);
+        mProvider = new HeatmapTileProvider.Builder()
+                .data(locations)
+                .radius(50)
+                .gradient(gradient)
+                .build();
+
+        mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_home) {
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivityForResult(intent, 0);
-            System.out.println("1231242483748274823748237423");
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+    public boolean onMarkerClick(Marker marker) {
+//        Resources res = getResources();
+        String text = " ";
+        String title = " ";
+        String cat = " ";
+        for (MapObject mapObject : mapObjects) {
+            if (marker.getPosition().equals(mapObject.getLatLng())) {
+                text = (mapObject.getDescription());
+                title = mapObject.getName();
+                cat = mapObject.getCategory();
+                break;
+            }
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
+                .findViewById(android.R.id.content)).getChildAt(0);
+
+        onButtonShowPopupWindow(viewGroup, text, title, cat);
+
+
+        return false;
+    }
+
+    public void onButtonShowPopupWindow(View view, String text, String title, String cat) {
+
+        mMap.moveCamera(CameraUpdateFactory.zoomIn());
+
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_window, null);
+
+        TextView t = popupView.findViewById(R.id.popuptext);
+        t.setText(text);
+        TextView e = popupView.findViewById(R.id.title);
+        e.setText(title);
+        TextView x = popupView.findViewById(R.id.category);
+        x.setText(cat);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mMap.moveCamera(CameraUpdateFactory.zoomOut());
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+    }
+
+    // ###########################################
+    // ###########################################
+    // danger map
+    // ###########################################
+    // ###########################################
+
+    /**
+     * Utilises points on screen to draw a danger heatmap
+     */
+    private void drawDangerMap() {
+        System.out.println("generating danger map...");
+        // 43.257009, -79.900810
+
+        List<LatLng> dangerLocations = new ArrayList<>();
+        for (int i = 0; i < mapObjects.size(); i++) {
+            dangerLocations.add(mapObjects.get(i).getLatLng());
+        }
+
+        /*
+            ADD PREDICTED DANGERS HERE.............
+         */
+
+        // BASE COLOR
+        System.out.println("generating danger map... BASE");
+        {
+            List<LatLng> locations = new ArrayList<>();
+
+            Random rand = new Random();
+
+            for (double lon = -80; lon < -79.8; lon += 0.001) {
+                for (double lat = 43.1; lat < 43.3; lat += 0.001) {
+                    // Do some danger predicting here, add different numbers of points
+                    LatLng ln = new LatLng(lat, lon);
+                    locations.add(ln);
+
+                    // 1 in 80 chance of adding blip
+//                    if (rand.nextInt(200) == 0) {
+//                        dangerLocations.add(ln);
+//                    }
+                }
+            }
+
+            // Non alert colors
+            int[] gradientColors = {
+                    Color.rgb(117, 243, 188)
+            };
+            float[] gradientStartPoints = {
+                    1f
+            };
+
+            Gradient gradient = new Gradient(gradientColors, gradientStartPoints);
+            mProvider = new HeatmapTileProvider.Builder()
+                    .data(locations)
+                    .radius(50)
+                    .gradient(gradient)
+                    .build();
+
+            mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+        }
+
+        // DANGERS COLOR
+        System.out.println("generating danger map... DANGERS");
+        {
+            // Non alert colors
+            int[] gradientColors = {
+                    Color.rgb(255, 175, 27),
+                    Color.rgb(255, 43, 27),
+            };
+            float[] gradientStartPoints = {
+                    0.7f,
+                    1f,
+            };
+
+            Gradient gradient = new Gradient(gradientColors, gradientStartPoints);
+            mProvider = new HeatmapTileProvider.Builder()
+                    .data(dangerLocations)
+                    .radius(50)
+                    .gradient(gradient)
+                    .build();
+
+            mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+        }
     }
 }
