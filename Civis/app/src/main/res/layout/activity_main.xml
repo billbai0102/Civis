@@ -96,4 +96,12 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
+    <!-- Popup  Swipe image-->
+    <ImageView
+            android:id="@+id/popupSwipeImage"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+    />
 </androidx.constraintlayout.widget.ConstraintLayout>

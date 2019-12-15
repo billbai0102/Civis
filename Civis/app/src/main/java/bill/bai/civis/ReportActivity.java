@@ -137,10 +137,9 @@ public class ReportActivity extends AppCompatActivity implements AdapterView.OnI
         ArrayList<MapObject> testPost = new ArrayList<>();
         // "Takes out current location"
         // TODO camera image
-        testPost.add(new MapObject(title, description, typeSelected, 43.257009, -79.900810, ""));
+        testPost.add(new MapObject(title, description, typeSelected, 43.257009, -79.900810, "https://lh5.googleusercontent.com/p/AF1QipPnZFuskVu1WYJCt_zNKsLuX_wLV4c1EjeFHJZs=w235-h160-k-no"));
 
         API.postData(testPost);
-
 
         Intent intent = new Intent(ReportActivity.this, MainActivity.class);
         startActivityForResult(intent, 0);

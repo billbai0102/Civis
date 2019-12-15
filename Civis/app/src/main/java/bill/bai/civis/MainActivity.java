@@ -3,12 +3,17 @@ package bill.bai.civis;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ImageDecoder;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
 import android.os.Handler;
 import android.view.*;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -18,6 +23,7 @@ import android.util.Log;
 
 import androidx.core.view.GravityCompat;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,7 +39,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
+import com.squareup.picasso.Picasso;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -234,11 +244,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         String text = " ";
         String title = " ";
         String cat = " ";
+        String imgUrl = "";
+
         for (MapObject mapObject : mapObjects) {
             if (marker.getPosition().equals(mapObject.getLatLng())) {
                 text = (mapObject.getDescription());
                 title = mapObject.getName();
                 cat = mapObject.getCategory();
+                imgUrl = mapObject.getImageUrl();
                 break;
             }
         }
@@ -246,13 +259,25 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
                 .findViewById(android.R.id.content)).getChildAt(0);
 
-        onButtonShowPopupWindow(viewGroup, text, title, cat);
+        onButtonShowPopupWindow(viewGroup, text, title, cat, imgUrl);
 
 
         return false;
     }
 
-    public void onButtonShowPopupWindow(View view, String text, String title, String category) {
+
+    // ---------------------------------------------------------------
+    // POPUP
+    // Loads images
+//    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+//        protected Bitmap doInBackground(String... urls) {
+//            String urldisplay = urls[0];
+//
+//
+//        }
+//    }
+
+    public void onButtonShowPopupWindow(View view, String text, String title, String category, String imgUrl) {
 
         mMap.moveCamera(CameraUpdateFactory.zoomIn());
 
@@ -267,40 +292,58 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         TextView x = popupView.findViewById(R.id.category);
         x.setText(category);
 
-        /*
-
-
-        URL url = new URL("https://cdn.cms.prod.nypr.digital/images/subwayduck120419.2e16d0ba.fill-661x496.jpg");
-        Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-        imageView.setImageBitmap(bmp);
-
-
-         */
-
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        ImageView image = findViewById(R.id.popupSwipeImage);
+
 
         popupView.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
-            // TODO Show unshow image based on R/L swipes
+            // Show unshow image based on R/L swipes
             public void onSwipeRight() {
                 // Show image
-                System.out.println("R swipe");
-            }
-            public void onSwipeLeft() {
-                // Hide image
-                System.out.println("L swipe");
+                Picasso.get().load(imgUrl).into(image);
+                image.setVisibility(View.VISIBLE);
+
+                view.bringToFront();
+
+                // Hide the popup
+                popupWindow.dismiss();
+
+                System.out.println("R swipe SHow popup image");
             }
 
             // Dismiss when swipped down
             public void onSwipeBottom() {
                 mMap.moveCamera(CameraUpdateFactory.zoomOut());
                 popupWindow.dismiss();
+                image.setVisibility(View.INVISIBLE);
             }
         });
+
+        image.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+            public void onSwipeLeft() {
+                // Hide image
+                image.setVisibility(View.INVISIBLE);
+                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+                System.out.println("L swipe Hide popup image");
+            }
+
+            // Dismiss when swipped down
+            public void onSwipeBottom() {
+                mMap.moveCamera(CameraUpdateFactory.zoomOut());
+                popupWindow.dismiss();
+                image.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        // Show the popup after setting all the listeners
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
     }
 
     // ###########################################
