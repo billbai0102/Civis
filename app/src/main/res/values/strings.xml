@@ -24,4 +24,7 @@
         <item>Caffè Americano</item>
         <item>Cafe Zorro</item>
     </string-array>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+
 </resources>
