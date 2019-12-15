@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity
         // App startup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -70,6 +72,13 @@ public class MainActivity extends AppCompatActivity
         // Load home page
         System.out.println("Loading maps");
         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+
+        try {
+            Thread.sleep(1000);
+        }catch(Exception e){
+
+        }
+
         startActivityForResult(intent, 0);
     }
 

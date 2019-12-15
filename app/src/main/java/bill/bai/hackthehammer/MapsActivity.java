@@ -152,10 +152,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(43.263290, -79.902583)
         ));
         mapObjects.add(new MapObject(
-                "McMaster",
-                "3",
+                "Bank on Fire",
+                "TD bank currently on fire, fire is almost 1 block large now!",
+                "Fire",
+                new LatLng(43.263260, -79.902683)
+        ));
+
+
+        mapObjects.add(new MapObject(
+                "Burst Pipelines",
+                "Pipeline is flooding area near the brewery",
                 "Natural",
-                new LatLng(43.247165, -79.900799)
+                new LatLng(43.255510, -79.931509)
+        ));
+        mapObjects.add(new MapObject(
+                "Burst Pipelines",
+                "Pipeline is flooding area near the brewery",
+                "Natural",
+                new LatLng(43.255231, -79.931471)
+        ));
+        mapObjects.add(new MapObject(
+                "Burst Pipelines",
+                "Pipeline is flooding area near the brewery",
+                "Natural",
+                new LatLng(43.255073, -79.932121)
+        ));
+        mapObjects.add(new MapObject(
+                "Burst Pipelines",
+                "Pipeline is flooding area near the brewery",
+                "Natural",
+                new LatLng(43.255686, -79.931853)
         ));
 
         mapObjects.add(new MapObject(
@@ -267,7 +293,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mProvider = new HeatmapTileProvider.Builder()
                 .data(locations)
-                .radius(30)
+                .radius(60)
                 .gradient(gradient)
                 .build();
 
