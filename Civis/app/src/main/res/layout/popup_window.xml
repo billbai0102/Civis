@@ -45,5 +45,16 @@
         android:text="Description"
         android:gravity="center"
         android:textSize="20sp" />
-    
+
+    <TextView
+            android:id="@+id/hasPictureIndicator"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@id/popuptext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-15dp"
+            android:text="&lt;"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
+
 </RelativeLayout>

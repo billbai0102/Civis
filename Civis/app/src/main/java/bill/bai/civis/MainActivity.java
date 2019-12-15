@@ -310,6 +310,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         ImageView image = findViewById(R.id.popupSwipeImage);
 
+        TextView hasImageIndicator = popupView.findViewById(R.id.hasPictureIndicator);
+        // Show arrow if image exists
+        if (imgUrl.isEmpty()) {
+            hasImageIndicator.setVisibility(View.INVISIBLE);
+        }
+        else {
+            hasImageIndicator.setVisibility(View.VISIBLE);
+        }
+
 
         popupView.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
             // Show unshow image based on R/L swipes
