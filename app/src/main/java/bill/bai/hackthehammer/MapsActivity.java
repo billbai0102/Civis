@@ -3,7 +3,6 @@ package bill.bai.hackthehammer;
 import androidx.fragment.app.FragmentActivity;
 
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,7 +10,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
@@ -21,11 +22,12 @@ import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private HeatmapTileProvider mProvider;
     private TileOverlay mOverlay;
+    private boolean isHeatMap = true;
 
     //TODO: Yes
     public static ArrayList<MapObject> mapObjects = new ArrayList<MapObject>();
@@ -60,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 "Yes",
                 new LatLng(43.257165, -79.900799)
         ));
+
         mapObjects.add(new MapObject(
                 "McMaster",
                 "Bad stuff",
@@ -110,7 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("McMaster"));
 
 
-        plotPoints(mMap, mapObjects);
+        // plotPoints(mMap, mapObjects);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.257165, -79.900799), 13));
         drawHeatMap(mMap, mapObjects);
     }
@@ -119,12 +122,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         for(int x = 0; x < mapObjects.size(); x++){
-            mMap.addMarker(new MarkerOptions().position(mapObjects.get(x).getLatLng()).title(mapObjects.get(x).getName()));
+            float color = 0;
+            
+
+            Marker marker = mMap.addMarker(new MarkerOptions().
+                    position(mapObjects.get(x)
+                            .getLatLng())
+                    .title(mapObjects
+                            .get(x)
+                            .getName())
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(color)
+                    )
+            );
         }
+
+        mMap.setOnMarkerClickListener(this);
     }
 
 
     public void reportButton(View f){
+    }
+
+    public void toggleButton(View f){
+        isHeatMap = !isHeatMap;
+        mMap.clear();
+        if(isHeatMap){
+            plotPoints(mMap, mapObjects);
+        }else{
+            drawHeatMap(mMap, mapObjects);
+        }
     }
 
     /**
@@ -149,12 +176,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mProvider = new HeatmapTileProvider.Builder()
                 .data(locations)
-                .radius(50)
+                .radius(30)
                 .gradient(gradient)
                 .build();
 
         mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+    }
 
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        System.out.println("38482583275634573465634573645736");
+        return false;
     }
 }
