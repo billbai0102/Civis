@@ -46,14 +46,4 @@
         android:gravity="center"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/auth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:textColor="@android:color/holo_red_light"
-        android:text="Authorities have not arrived on scene"
-        android:textSize="17sp"
-        android:gravity="center" />
-
 </RelativeLayout>

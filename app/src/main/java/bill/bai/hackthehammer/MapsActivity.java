@@ -252,6 +252,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void toggleButton(View f){
         isHeatMap = !isHeatMap;
         mMap.clear();
+
+
         if(isHeatMap){
             plotPoints(mMap, mapObjects);
             drawHeatMap(mMap, mapObjects);
@@ -265,6 +267,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * Draws a heatmap on the map
      */
     public void drawHeatMap(GoogleMap googleMap, List<MapObject> mapObjects){
+        if (mapObjects.size() == 0)
+            return;
+
         mMap = googleMap;
         int[] gradientColors = {
                 Color.rgb(195, 107, 0),

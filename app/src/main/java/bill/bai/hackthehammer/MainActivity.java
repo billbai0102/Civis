@@ -1,5 +1,6 @@
 package bill.bai.hackthehammer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.view.GravityCompat;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -24,8 +27,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
-import android.view.Window;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity
         // App startup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -59,27 +59,32 @@ public class MainActivity extends AppCompatActivity
 //        toggle.syncState();
 
         // Fetch API data
-
-
-//        ArrayList<MapObject> testPost = new ArrayList<>();
-//        testPost.add(new MapObject("Zooomer weeman", "CREEPER", "AWWW MAN, SO WE BACK IN THE MINE", 69, 420));
-//        testPost.add(new MapObject("Boomer man", "CREEPER", "AWWW MAN, SO WE BACK IN THE MINE", 69, 420));
-//
-//        API.postData(testPost);
-
+        System.out.println("Fetching API data");
         MapsActivity.fetchAPIData();
+
+//        ArrayList<MapObject> mapObjects = API.fetchData();
+//
+//        for (MapObject mapObject : mapObjects) {
+//            System.out.println(mapObject.getName());
+//            System.out.println(mapObject.getLatitude() + 1);
+//        }
+//
+//        ArrayList<MapObject> testPost = new ArrayList<>();
+//        testPost.add(new MapObject("Yay", "CREEPER", "AWWW MAN, SO WE BACK IN THE MINE", 69, 420));
+//        API.postData(testPost);
 
         // Load home page
         System.out.println("Loading maps");
         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-
-        try {
-            Thread.sleep(1000);
-        }catch(Exception e){
-
-        }
-
         startActivityForResult(intent, 0);
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
+            String newToken = instanceIdResult.getToken();
+            Log.e("newToken", newToken);
+            this.getPreferences(Context.MODE_PRIVATE).edit().putString("fb", newToken).apply();
+        });
+
+        Log.d("newToken", this.getPreferences(Context.MODE_PRIVATE).getString("fb", "empty :("));
     }
 
 
