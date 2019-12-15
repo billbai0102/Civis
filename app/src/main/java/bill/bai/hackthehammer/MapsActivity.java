@@ -49,6 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         try {
             System.out.println("Fetching API data");
 
+            MapsActivity.mapObjects.clear();
             ArrayList<MapObject> mapObjects = API.fetchData();
             MapsActivity.mapObjects.addAll(mapObjects);
         } catch (Exception e) {
