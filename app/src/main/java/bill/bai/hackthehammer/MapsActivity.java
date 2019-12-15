@@ -33,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private HeatmapTileProvider mProvider;
     private TileOverlay mOverlay;
-    private boolean isHeatMap = true;
+    private boolean isHeatMap = false;
 
     //TODO: Yes
     public static ArrayList<MapObject> mapObjects = new ArrayList<MapObject>();
