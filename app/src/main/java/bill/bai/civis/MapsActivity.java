@@ -1,4 +1,4 @@
-package bill.bai.hackthehammer;
+package bill.bai.civis;
 
 import android.content.Intent;
 import android.content.res.Resources;

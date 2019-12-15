@@ -1,6 +1,5 @@
-package bill.bai.hackthehammer;
+package bill.bai.civis;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 

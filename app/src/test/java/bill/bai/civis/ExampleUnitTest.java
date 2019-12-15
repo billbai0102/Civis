@@ -1,4 +1,4 @@
-package bill.bai.hackthehammer;
+package bill.bai.civis;
 
 import org.junit.Test;
 
