@@ -71,53 +71,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         mapObjects.add(new MapObject(
-                "McMaster",
-                "Bad stuff",
-                "emergency",
+                "Possible Gunshots",
+                "Gunshots have been heard near Main street, please be extremely cautious. One person seen laying on the ground",
+                "Emergency",
                 new LatLng(43.257165, -79.900799)
         ));
 
         mapObjects.add(new MapObject(
-                "McMaster",
-                "Bad stuff",
-                "crime",
+                "Heist?",
+                "Jewelery Heist near McMaster MIP. Robbers wearing black masks and baggy clothing.",
+                "Criminal Activity",
                 new LatLng(43.267165, -79.900799)
         ));
         mapObjects.add(new MapObject(
-                "McMaster",
-                "Bad stuff",
-                "fire",
-                new LatLng(43.257165, -79.910799)
+                "Burning Building",
+                "TD Bank Building is engulfed in fire, first responders haven't reached the scene yet. Take caution",
+                "Fire",
+                new LatLng(43.263290, -79.902583)
         ));
         mapObjects.add(new MapObject(
                 "McMaster",
-                "Bad stuff",
-                "natural",
+                "3",
+                "Natural",
                 new LatLng(43.247165, -79.900799)
         ));
 
         mapObjects.add(new MapObject(
                 "McMaster",
-                "Bad stuff",
-                "Yes",
+                "4",
+                "Other",
                 new LatLng(43.258165, -79.900799)
         ));
         mapObjects.add(new MapObject(
                 "McMaster",
-                "Bad stuff",
-                "Yes",
+                "5",
+                "Other",
                 new LatLng(43.267165, -79.910799)
         ));
         mapObjects.add(new MapObject(
                 "McMaster",
-                "Bad stuff",
-                "Yes",
+                "6",
+                "Other",
                 new LatLng(43.255165, -79.909799)
         ));
         mapObjects.add(new MapObject(
                 "McMaster",
-                "Bad stuff",
-                "Yes",
+                "aaa",
+                "Other",
                 new LatLng(43.248165, -79.900799)
         ));
 
@@ -137,13 +137,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for(int x = 0; x < mapObjects.size(); x++){
             float color = 0;
-            if(mapObjects.get(x).getCategory().equals("emergency")) {
+            if(mapObjects.get(x).getCategory().equals("Emergency")) {
                 color = BitmapDescriptorFactory.HUE_RED;
-            }else if(mapObjects.get(x).getCategory().equals("crime")){
+            }else if(mapObjects.get(x).getCategory().equals("Criminal Activity")){
                 color = BitmapDescriptorFactory.HUE_ORANGE;
-            }else if(mapObjects.get(x).getCategory().equals("fire")){
+            }else if(mapObjects.get(x).getCategory().equals("Fire")){
                 color = BitmapDescriptorFactory.HUE_VIOLET;
-            }else if(mapObjects.get(x).getCategory().equals("natural")){
+            }else if(mapObjects.get(x).getCategory().equals("Natural")){
                 color = BitmapDescriptorFactory.HUE_BLUE;
             }else{
                 color = BitmapDescriptorFactory.HUE_AZURE;
@@ -216,10 +216,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         Resources res = getResources();
-        String text = "<b>";
+        String text = " ";
+        String title = " ";
+        String cat = " ";
         for(int x = 0; x < mapObjects.size(); x++){
-            if(marker.equals(mapObjects.get(x).marker)){
-                text = text.concat(mapObjects.get(x).getDescription()).concat("</b>");
+            if(marker.getPosition().equals(mapObjects.get(x).getLatLng())){
+                text = (mapObjects.get(x).getDescription());
+                title = mapObjects.get(x).getName();
+                cat = mapObjects.get(x).getCategory();
                 break;
             }
         }
@@ -227,30 +231,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
                 .findViewById(android.R.id.content)).getChildAt(0);
 
-        onButtonShowPopupWindow(viewGroup, text);
+        onButtonShowPopupWindow(viewGroup, text, title, cat);
 
 
 
         return false;
     }
 
-    public void onButtonShowPopupWindow(View view, String text){
+    public void onButtonShowPopupWindow(View view, String text, String title, String cat){
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
         TextView t = popupView.findViewById(R.id.popuptext);
         t.setText(text);
+        TextView e = popupView.findViewById(R.id.title);
+        e.setText(title);
+        TextView x = popupView.findViewById(R.id.category);
+        x.setText(cat);
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-        //TextView pptext = (TextView) findViewById(R.id.popuptext);
-        //pptext.setText("LEO IS GAY");
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         // dismiss the popup window when touched

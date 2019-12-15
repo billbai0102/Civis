@@ -14,5 +14,4 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="title_activity_maps">Map</string>
-    <string name="popup_text">%1$s</string>
 </resources>
