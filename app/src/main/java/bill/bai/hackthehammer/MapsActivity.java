@@ -1,46 +1,32 @@
 package bill.bai.hackthehammer;
 
-import android.os.Handler;
-import androidx.fragment.app.FragmentActivity;
-
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Handler;
+import android.view.*;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
+import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.android.gms.maps.model.*;
 import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import java.util.*;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private HeatmapTileProvider mProvider;
     private TileOverlay mOverlay;
-    private boolean isHeatMap = false;
+    private boolean isHeatMap = true;
 
     //TODO: Yes
     public static ArrayList<MapObject> mapObjects = new ArrayList<>();
@@ -96,119 +82,119 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // The emergency
-        mapObjects.add(new MapObject(
-                "Possible Gunshots",
-                "Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground",
-                "Emergency",
-                new LatLng(43.258296, -79.935160)
-        ));
-        mapObjects.add(new MapObject(
-                "Gunshots Heard",
-                "Gunshots heard at Main St West & Osler Dr. Injured woman here!",
-                "Emergency",
-                new LatLng(43.257496, -79.935150)
-        ));
-        mapObjects.add(new MapObject(
-                "Woman shot",
-                "Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground",
-                "Emergency",
-                new LatLng(43.257286, -79.936150)
-        ));
-        mapObjects.add(new MapObject(
-                "Heard gunshots",
-                "I heard gunshots near Main St West & Osler Dr. No authorities shown up, be safe.",
-                "Emergency",
-                new LatLng(43.257796, -79.935150)
-        ));
-        mapObjects.add(new MapObject(
-                "Gunshots WARNING",
-                "Heard 3 or so gunshots near Main St West & Osler Dr. Injured lady near scene, no police!",
-                "Emergency",
-                new LatLng(43.255286, -79.936150)
-        ));
-
-        // Criminal Activity
-        mapObjects.add(new MapObject(
-                "Heist?",
-                "Jewelery Heist near McMaster MIP. Robbers wearing black masks and baggy clothing.",
-                "Criminal Activity",
-                new LatLng(43.267165, -79.904799)
-        ));
-        mapObjects.add(new MapObject(
-                "Shop being robbed",
-                "Masked robber's seen near jewelry store near McMaster MIP",
-                "Criminal Activity",
-                new LatLng(43.267145, -79.904699)
-        ));
-
-
-
-        mapObjects.add(new MapObject(
-                "Burning Building",
-                "TD Bank Building is engulfed in fire, first responders haven't reached the scene yet. Take caution",
-                "Fire",
-                new LatLng(43.263290, -79.902583)
-        ));
-        mapObjects.add(new MapObject(
-                "Bank on Fire",
-                "TD bank currently on fire, fire is almost 1 block large now!",
-                "Fire",
-                new LatLng(43.263260, -79.902683)
-        ));
-
-
-        mapObjects.add(new MapObject(
-                "Burst Pipelines",
-                "Pipeline is flooding area near the brewery",
-                "Natural",
-                new LatLng(43.255510, -79.931509)
-        ));
-        mapObjects.add(new MapObject(
-                "Burst Pipelines",
-                "Pipeline is flooding area near the brewery",
-                "Natural",
-                new LatLng(43.255231, -79.931471)
-        ));
-        mapObjects.add(new MapObject(
-                "Burst Pipelines",
-                "Pipeline is flooding area near the brewery",
-                "Natural",
-                new LatLng(43.255073, -79.932121)
-        ));
-        mapObjects.add(new MapObject(
-                "Burst Pipelines",
-                "Pipeline is flooding area near the brewery",
-                "Natural",
-                new LatLng(43.255686, -79.931853)
-        ));
-
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "4",
-                "Other",
-                new LatLng(43.258165, -79.900799)
-        ));
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "5",
-                "Other",
-                new LatLng(43.267165, -79.910799)
-        ));
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "6",
-                "Other",
-                new LatLng(43.255165, -79.909799)
-        ));
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "aaa",
-                "Other",
-                new LatLng(43.248165, -79.900799)
-        ));
+//        mMap = googleMap;
+//
+//        // The emergency
+//        mapObjects.add(new MapObject(
+//                "Possible Gunshots",
+//                "Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground",
+//                "Emergency",
+//                new LatLng(43.258296, -79.935160)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "Gunshots Heard",
+//                "Gunshots heard at Main St West & Osler Dr. Injured woman here!",
+//                "Emergency",
+//                new LatLng(43.257496, -79.935150)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "Woman shot",
+//                "Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground",
+//                "Emergency",
+//                new LatLng(43.257286, -79.936150)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "Heard gunshots",
+//                "I heard gunshots near Main St West & Osler Dr. No authorities shown up, be safe.",
+//                "Emergency",
+//                new LatLng(43.257796, -79.935150)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "Gunshots WARNING",
+//                "Heard 3 or so gunshots near Main St West & Osler Dr. Injured lady near scene, no police!",
+//                "Emergency",
+//                new LatLng(43.255286, -79.936150)
+//        ));
+//
+//        // Criminal Activity
+//        mapObjects.add(new MapObject(
+//                "Heist?",
+//                "Jewelery Heist near McMaster MIP. Robbers wearing black masks and baggy clothing.",
+//                "Criminal Activity",
+//                new LatLng(43.267165, -79.904799)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "Shop being robbed",
+//                "Masked robber's seen near jewelry store near McMaster MIP",
+//                "Criminal Activity",
+//                new LatLng(43.267145, -79.904699)
+//        ));
+//
+//
+//
+//        mapObjects.add(new MapObject(
+//                "Burning Building",
+//                "TD Bank Building is engulfed in fire, first responders haven't reached the scene yet. Take caution",
+//                "Fire",
+//                new LatLng(43.263290, -79.902583)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "Bank on Fire",
+//                "TD bank currently on fire, fire is almost 1 block large now!",
+//                "Fire",
+//                new LatLng(43.263260, -79.902683)
+//        ));
+//
+//
+//        mapObjects.add(new MapObject(
+//                "Burst Pipelines",
+//                "Pipeline is flooding area near the brewery",
+//                "Natural",
+//                new LatLng(43.255510, -79.931509)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "Burst Pipelines",
+//                "Pipeline is flooding area near the brewery",
+//                "Natural",
+//                new LatLng(43.255231, -79.931471)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "Burst Pipelines",
+//                "Pipeline is flooding area near the brewery",
+//                "Natural",
+//                new LatLng(43.255073, -79.932121)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "Burst Pipelines",
+//                "Pipeline is flooding area near the brewery",
+//                "Natural",
+//                new LatLng(43.255686, -79.931853)
+//        ));
+//
+//        mapObjects.add(new MapObject(
+//                "McMaster",
+//                "4",
+//                "Other",
+//                new LatLng(43.258165, -79.900799)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "McMaster",
+//                "5",
+//                "Other",
+//                new LatLng(43.267165, -79.910799)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "McMaster",
+//                "6",
+//                "Other",
+//                new LatLng(43.255165, -79.909799)
+//        ));
+//        mapObjects.add(new MapObject(
+//                "McMaster",
+//                "aaa",
+//                "Other",
+//                new LatLng(43.248165, -79.900799)
+//        ));
 
         mMap = googleMap;
 //
@@ -219,6 +205,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // plotPoints(mMap, mapObjects);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.257165, -79.900799), 13));
         drawHeatMap(mMap, mapObjects);
+        plotPoints(mMap, mapObjects);
     }
 
     public void plotPoints(GoogleMap googleMap, List<MapObject> mapObjects){
@@ -267,22 +254,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.clear();
         if(isHeatMap){
             plotPoints(mMap, mapObjects);
-        }else{
             drawHeatMap(mMap, mapObjects);
+        }
+        else {
+            drawDangerMap();
         }
     }
 
     /**
      * Draws a heatmap on the map
      */
-    private void drawHeatMap(GoogleMap googleMap, List<MapObject> mapObjects){
+    public void drawHeatMap(GoogleMap googleMap, List<MapObject> mapObjects){
         mMap = googleMap;
         int[] gradientColors = {
-                Color.rgb(245, 147, 0),
+                Color.rgb(195, 107, 0),
                 Color.rgb(207, 0, 0)
         };
         float[] gradientStartPoints = {
-                0.2f,
+                0.8f,
                 1f
         };
         Gradient gradient = new Gradient(gradientColors, gradientStartPoints);
@@ -358,5 +347,91 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return true;
             }
         });
+    }
+
+    // ###########################################
+    // ###########################################
+    // danger map
+    // ###########################################
+    // ###########################################
+
+    /**
+     * Utilises points on screen to draw a danger heatmap
+     */
+    private void drawDangerMap() {
+        System.out.println("generating danger map...");
+        // 43.257009, -79.900810
+
+        List<LatLng> dangerLocations = new ArrayList<>();
+        for (int i = 0; i < mapObjects.size(); i++) {
+            dangerLocations.add(mapObjects.get(i).getLatLng());
+        }
+
+        /*
+            ADD PREDICTED DANGERS HERE.............
+         */
+
+        // BASE COLOR
+        System.out.println("generating danger map... BASE");
+        {
+            List<LatLng> locations = new ArrayList<>();
+
+            Random rand = new Random();
+
+            for (double lon = -80; lon < -79.8; lon += 0.001) {
+                for (double lat = 43.1; lat < 43.3; lat += 0.001) {
+                    // Do some danger predicting here, add different numbers of points
+                    LatLng ln = new LatLng(lat, lon);
+                    locations.add(ln);
+
+                    // 1 in 80 chance of adding blip
+//                    if (rand.nextInt(200) == 0) {
+//                        dangerLocations.add(ln);
+//                    }
+                }
+            }
+
+            // Non alert colors
+            int[] gradientColors = {
+                    Color.rgb(117, 243, 188)
+            };
+            float[] gradientStartPoints = {
+                    1f
+            };
+
+            Gradient gradient = new Gradient(gradientColors, gradientStartPoints);
+            mProvider = new HeatmapTileProvider.Builder()
+                    .data(locations)
+                    .radius(50)
+                    .gradient(gradient)
+                    .build();
+
+            mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+        }
+
+        // DANGERS COLOR
+        System.out.println("generating danger map... DANGERS");
+        {
+
+
+            // Non alert colors
+            int[] gradientColors = {
+                    Color.rgb(255, 175, 27),
+                    Color.rgb(255, 43, 27),
+            };
+            float[] gradientStartPoints = {
+                    0.7f,
+                    1f,
+            };
+
+            Gradient gradient = new Gradient(gradientColors, gradientStartPoints);
+            mProvider = new HeatmapTileProvider.Builder()
+                    .data(dangerLocations)
+                    .radius(50)
+                    .gradient(gradient)
+                    .build();
+
+            mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+        }
     }
 }
