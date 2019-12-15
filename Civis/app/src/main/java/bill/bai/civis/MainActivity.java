@@ -50,6 +50,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         System.out.println("Fetching API data");
         fetchAPIData();
 
+
+        // What does this do?
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
             String newToken = instanceIdResult.getToken();
             Log.e("newToken", newToken);
@@ -75,7 +77,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private HeatmapTileProvider mProvider;
     private TileOverlay mOverlay;
-    private boolean isHeatMap = true;
 
     public static ArrayList<MapObject> mapObjects = new ArrayList<>();
 
@@ -119,7 +120,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         // plotPoints(mMap, mapObjects);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.257165, -79.900799), 13));
-        drawHeatMap(mMap, mapObjects);
+
+//        drawHeatMap(mMap, mapObjects);
+
+        // Ploting points is first
         plotPoints(mMap, mapObjects);
     }
 
@@ -169,16 +173,25 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         startActivityForResult(intent, 0);
     }
 
+    // The button cycles between the 3 options
+    int toggleButtonStage = 0;
     public void toggleButton(View f) {
-        isHeatMap = !isHeatMap;
         mMap.clear();
 
+        toggleButtonStage++;
+        if (toggleButtonStage >= 3)
+            toggleButtonStage = 0;
 
-        if (isHeatMap) {
-            plotPoints(mMap, mapObjects);
-            drawHeatMap(mMap, mapObjects);
-        } else {
-            drawDangerMap();
+        switch (toggleButtonStage) {
+            case 0:
+                plotPoints(mMap, mapObjects);
+                break;
+            case 1:
+                drawHeatMap(mMap, mapObjects);
+                break;
+            case 2:
+                drawDangerMap();
+                break;
         }
     }
 
@@ -195,7 +208,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 Color.rgb(207, 0, 0)
         };
         float[] gradientStartPoints = {
-                0.8f,
+                0.2f,
                 1f
         };
         Gradient gradient = new Gradient(gradientColors, gradientStartPoints);
@@ -341,7 +354,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     Color.rgb(255, 43, 27),
             };
             float[] gradientStartPoints = {
-                    0.7f,
+                    0.4f,
                     1f,
             };
 
