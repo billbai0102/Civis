@@ -123,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for(int x = 0; x < mapObjects.size(); x++){
             float color = 0;
-            
+
 
             Marker marker = mMap.addMarker(new MarkerOptions().
                     position(mapObjects.get(x)
