@@ -4,17 +4,25 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -65,26 +73,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapObjects.add(new MapObject(
                 "McMaster",
                 "Bad stuff",
-                "Yes",
+                "emergency",
                 new LatLng(43.257165, -79.900799)
         ));
 
         mapObjects.add(new MapObject(
                 "McMaster",
                 "Bad stuff",
-                "Yes",
+                "crime",
                 new LatLng(43.267165, -79.900799)
         ));
         mapObjects.add(new MapObject(
                 "McMaster",
                 "Bad stuff",
-                "Yes",
+                "fire",
                 new LatLng(43.257165, -79.910799)
         ));
         mapObjects.add(new MapObject(
                 "McMaster",
                 "Bad stuff",
-                "Yes",
+                "natural",
                 new LatLng(43.247165, -79.900799)
         ));
 
@@ -129,6 +137,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for(int x = 0; x < mapObjects.size(); x++){
             float color = 0;
+            if(mapObjects.get(x).getCategory().equals("emergency")) {
+                color = BitmapDescriptorFactory.HUE_RED;
+            }else if(mapObjects.get(x).getCategory().equals("crime")){
+                color = BitmapDescriptorFactory.HUE_ORANGE;
+            }else if(mapObjects.get(x).getCategory().equals("fire")){
+                color = BitmapDescriptorFactory.HUE_VIOLET;
+            }else if(mapObjects.get(x).getCategory().equals("natural")){
+                color = BitmapDescriptorFactory.HUE_BLUE;
+            }else{
+                color = BitmapDescriptorFactory.HUE_AZURE;
+            }
 
 
             Marker marker = mMap.addMarker(new MarkerOptions().
@@ -141,6 +160,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .defaultMarker(color)
                     )
             );
+
+            mapObjects.get(x).marker = marker;
         }
 
         mMap.setOnMarkerClickListener(this);
@@ -194,7 +215,51 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        System.out.println("38482583275634573465634573645736");
+        Resources res = getResources();
+        String text = "<b>";
+        for(int x = 0; x < mapObjects.size(); x++){
+            if(marker.equals(mapObjects.get(x).marker)){
+                text = text.concat(mapObjects.get(x).getDescription()).concat("</b>");
+                break;
+            }
+        }
+
+        final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
+                .findViewById(android.R.id.content)).getChildAt(0);
+
+        onButtonShowPopupWindow(viewGroup, text);
+
+
+
         return false;
+    }
+
+    public void onButtonShowPopupWindow(View view, String text){
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_window, null);
+
+        TextView t = popupView.findViewById(R.id.popuptext);
+        t.setText(text);
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        //TextView pptext = (TextView) findViewById(R.id.popuptext);
+        //pptext.setText("LEO IS GAY");
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
     }
 }
