@@ -59,12 +59,13 @@ public class MainActivity extends AppCompatActivity
         System.out.println("Fetching API data");
         ArrayList<MapObject> mapObjects = API.fetchData();
 
-//        for (MapObject mapObject : mapObjects) {
-//            System.out.println(mapObject.getName());
-//        }
+        for (MapObject mapObject : mapObjects) {
+            System.out.println(mapObject.getName());
+            System.out.println(mapObject.getLatitude() + 1);
+        }
 
         ArrayList<MapObject> testPost = new ArrayList<>();
-        testPost.add(new MapObject("Johnny is a cool guy", "Please work", "Fire", new LatLng(-1, 1)));
+        testPost.add(new MapObject("Yay", "CREEPER", "AWWW MAN, SO WE BACK IN THE MINE", 69, 420));
         API.postData(testPost);
 
         // Load home page

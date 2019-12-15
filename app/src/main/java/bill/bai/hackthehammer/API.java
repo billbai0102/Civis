@@ -2,6 +2,7 @@ package bill.bai.hackthehammer;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.telecom.Call;
 import androidx.annotation.RequiresApi;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
@@ -22,8 +23,6 @@ public class API {
             String url_str = string[0];
 
             try {
-                System.out.println(url_str);
-
                 URL url = new URL(url_str);
                 InputStreamReader isr = new InputStreamReader(url.openStream());
                 BufferedReader in = new BufferedReader(isr);
@@ -31,8 +30,6 @@ public class API {
 
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
-                    System.out.println(inputLine);
-
                     returnStr.append(inputLine);
                 }
                 in.close();
@@ -86,25 +83,23 @@ public class API {
                 String postUrl = string[0];
                 String data = string[1];
 
-                // Sender
                 URL url = new URL(postUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Accept-Charset", "UTF-8");
+                urlConnection.connect();
 
-                URLConnection con = url.openConnection();
-                HttpURLConnection http = (HttpURLConnection)con;
-                http.setRequestMethod("POST"); // PUT is another valid option
-                http.setDoOutput(true);
+                OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
 
-                // Send json
-                byte[] out = data.getBytes(StandardCharsets.UTF_8);
-                int length = out.length;
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+                writer.write(data);
+                writer.flush();
+                writer.close();
 
-                http.setFixedLengthStreamingMode(length);
-                http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-                http.connect();
+                out.close();
+                System.out.println("POST response code: " + urlConnection.getResponseCode());
 
-                try (OutputStream os = http.getOutputStream()) {
-                    os.write(out);
-                }
+                urlConnection.disconnect();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -128,16 +123,15 @@ public class API {
                 arguments.put("description", mapObject.getDescription());
                 arguments.put("category", mapObject.getCategory());
 
-                LatLng latLon = mapObject.getLatLng();
-                arguments.put("latitude", String.valueOf(latLon.latitude));
-                arguments.put("longitude", String.valueOf(latLon.longitude));
+                arguments.put("latitude", String.valueOf(mapObject.getLatitude()));
+                arguments.put("longitude", String.valueOf(mapObject.getLongitude()));
 
                 StringJoiner sj = new StringJoiner("&");
                 for(Map.Entry<String, String> entry : arguments.entrySet())
                     sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
                             + URLEncoder.encode(entry.getValue(), "UTF-8"));
 
-                System.out.println(sj.toString());
+                System.out.println("POST parameters" + sj.toString());
                 new SendPostTask().execute(sheetsUrl, sj.toString()).get();
             }
 
