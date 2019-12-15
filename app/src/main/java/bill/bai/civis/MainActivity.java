@@ -66,10 +66,6 @@ public class MainActivity extends AppCompatActivity
 //        API.postData(testPost);
 
         // Load home page
-        System.out.println("Loading maps");
-        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-        startActivityForResult(intent, 0);
-
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
             String newToken = instanceIdResult.getToken();
             Log.e("newToken", newToken);
@@ -77,6 +73,12 @@ public class MainActivity extends AppCompatActivity
         });
 
         Log.d("newToken", this.getPreferences(Context.MODE_PRIVATE).getString("fb", "empty :("));
+
+        // Keep this last
+        System.out.println("Loading maps");
+
+        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+        startActivity(intent);
     }
 
 
