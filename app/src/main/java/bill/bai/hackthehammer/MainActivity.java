@@ -24,6 +24,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.view.Window;
+import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity
         // App startup
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // this.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
 
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -56,20 +59,26 @@ public class MainActivity extends AppCompatActivity
 //        toggle.syncState();
 
         // Fetch API data
-        System.out.println("Fetching API data");
-        ArrayList<MapObject> mapObjects = API.fetchData();
 
-//        for (MapObject mapObject : mapObjects) {
-//            System.out.println(mapObject.getName());
-//        }
 
-        ArrayList<MapObject> testPost = new ArrayList<>();
-        testPost.add(new MapObject("Johnny is a cool guy", "Please work", "Fire", new LatLng(-1, 1)));
-        API.postData(testPost);
+//        ArrayList<MapObject> testPost = new ArrayList<>();
+//        testPost.add(new MapObject("Zooomer weeman", "CREEPER", "AWWW MAN, SO WE BACK IN THE MINE", 69, 420));
+//        testPost.add(new MapObject("Boomer man", "CREEPER", "AWWW MAN, SO WE BACK IN THE MINE", 69, 420));
+//
+//        API.postData(testPost);
+
+        MapsActivity.fetchAPIData();
 
         // Load home page
         System.out.println("Loading maps");
         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+
+        try {
+            Thread.sleep(1000);
+        }catch(Exception e){
+
+        }
+
         startActivityForResult(intent, 0);
     }
 
@@ -112,23 +121,23 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_home) {
-//            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-//            startActivityForResult(intent, 0);
-//            System.out.println("1231242483748274823748237423");
-//        } else if (id == R.id.nav_gallery) {
-//
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_tools) {
-//
-//        } else if (id == R.id.nav_share) {
-//
-//        } else if (id == R.id.nav_send) {
-//
-//        }
+        int id = item.getItemId();
+
+        if (id == R.id.nav_home) {
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivityForResult(intent, 0);
+            System.out.println("1231242483748274823748237423");
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_tools) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

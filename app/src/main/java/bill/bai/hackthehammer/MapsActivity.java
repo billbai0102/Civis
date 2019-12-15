@@ -1,5 +1,6 @@
 package bill.bai.hackthehammer;
 
+import android.os.Handler;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
@@ -32,9 +33,7 @@ import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -44,7 +43,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean isHeatMap = false;
 
     //TODO: Yes
-    public static ArrayList<MapObject> mapObjects = new ArrayList<MapObject>();
+    public static ArrayList<MapObject> mapObjects = new ArrayList<>();
+
+    public static void fetchAPIData() {
+        try {
+            System.out.println("Fetching API data");
+
+            MapsActivity.mapObjects.clear();
+            ArrayList<MapObject> mapObjects = API.fetchData();
+            MapsActivity.mapObjects.addAll(mapObjects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateDataAsyncTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(MapsActivity::fetchAPIData);
+            }
+        };
+
+        timer.schedule(task, 60 * 1000, 60 * 1000);  // Every 1 minute
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +79,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Start the data auto refresh timer
+        updateDataAsyncTask();
     }
 
 
@@ -70,62 +98,123 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        // The emergency
         mapObjects.add(new MapObject(
-                "McMaster",
-                "Bad stuff",
-                "emergency",
-                new LatLng(43.257165, -79.900799)
+                "Possible Gunshots",
+                "Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground",
+                "Emergency",
+                new LatLng(43.258296, -79.935160)
+        ));
+        mapObjects.add(new MapObject(
+                "Gunshots Heard",
+                "Gunshots heard at Main St West & Osler Dr. Injured woman here!",
+                "Emergency",
+                new LatLng(43.257496, -79.935150)
+        ));
+        mapObjects.add(new MapObject(
+                "Woman shot",
+                "Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground",
+                "Emergency",
+                new LatLng(43.257286, -79.936150)
+        ));
+        mapObjects.add(new MapObject(
+                "Heard gunshots",
+                "I heard gunshots near Main St West & Osler Dr. No authorities shown up, be safe.",
+                "Emergency",
+                new LatLng(43.257796, -79.935150)
+        ));
+        mapObjects.add(new MapObject(
+                "Gunshots WARNING",
+                "Heard 3 or so gunshots near Main St West & Osler Dr. Injured lady near scene, no police!",
+                "Emergency",
+                new LatLng(43.255286, -79.936150)
+        ));
+
+        // Criminal Activity
+        mapObjects.add(new MapObject(
+                "Heist?",
+                "Jewelery Heist near McMaster MIP. Robbers wearing black masks and baggy clothing.",
+                "Criminal Activity",
+                new LatLng(43.267165, -79.904799)
+        ));
+        mapObjects.add(new MapObject(
+                "Shop being robbed",
+                "Masked robber's seen near jewelry store near McMaster MIP",
+                "Criminal Activity",
+                new LatLng(43.267145, -79.904699)
+        ));
+
+
+
+        mapObjects.add(new MapObject(
+                "Burning Building",
+                "TD Bank Building is engulfed in fire, first responders haven't reached the scene yet. Take caution",
+                "Fire",
+                new LatLng(43.263290, -79.902583)
+        ));
+        mapObjects.add(new MapObject(
+                "Bank on Fire",
+                "TD bank currently on fire, fire is almost 1 block large now!",
+                "Fire",
+                new LatLng(43.263260, -79.902683)
+        ));
+
+
+        mapObjects.add(new MapObject(
+                "Burst Pipelines",
+                "Pipeline is flooding area near the brewery",
+                "Natural",
+                new LatLng(43.255510, -79.931509)
+        ));
+        mapObjects.add(new MapObject(
+                "Burst Pipelines",
+                "Pipeline is flooding area near the brewery",
+                "Natural",
+                new LatLng(43.255231, -79.931471)
+        ));
+        mapObjects.add(new MapObject(
+                "Burst Pipelines",
+                "Pipeline is flooding area near the brewery",
+                "Natural",
+                new LatLng(43.255073, -79.932121)
+        ));
+        mapObjects.add(new MapObject(
+                "Burst Pipelines",
+                "Pipeline is flooding area near the brewery",
+                "Natural",
+                new LatLng(43.255686, -79.931853)
         ));
 
         mapObjects.add(new MapObject(
                 "McMaster",
-                "Bad stuff",
-                "crime",
-                new LatLng(43.267165, -79.900799)
-        ));
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "Bad stuff",
-                "fire",
-                new LatLng(43.257165, -79.910799)
-        ));
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "Bad stuff",
-                "natural",
-                new LatLng(43.247165, -79.900799)
-        ));
-
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "Bad stuff",
-                "Yes",
+                "4",
+                "Other",
                 new LatLng(43.258165, -79.900799)
         ));
         mapObjects.add(new MapObject(
                 "McMaster",
-                "Bad stuff",
-                "Yes",
+                "5",
+                "Other",
                 new LatLng(43.267165, -79.910799)
         ));
         mapObjects.add(new MapObject(
                 "McMaster",
-                "Bad stuff",
-                "Yes",
+                "6",
+                "Other",
                 new LatLng(43.255165, -79.909799)
         ));
         mapObjects.add(new MapObject(
                 "McMaster",
-                "Bad stuff",
-                "Yes",
+                "aaa",
+                "Other",
                 new LatLng(43.248165, -79.900799)
         ));
 
+        mMap = googleMap;
 //
 //        // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(43.257165, -79.900799);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("McMaster"));
-
 
         // plotPoints(mMap, mapObjects);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.257165, -79.900799), 13));
@@ -137,13 +226,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         for(int x = 0; x < mapObjects.size(); x++){
             float color = 0;
-            if(mapObjects.get(x).getCategory().equals("emergency")) {
+            if(mapObjects.get(x).getCategory().equals("Emergency")) {
                 color = BitmapDescriptorFactory.HUE_RED;
-            }else if(mapObjects.get(x).getCategory().equals("crime")){
+            }else if(mapObjects.get(x).getCategory().equals("Criminal Activity")){
                 color = BitmapDescriptorFactory.HUE_ORANGE;
-            }else if(mapObjects.get(x).getCategory().equals("fire")){
+            }else if(mapObjects.get(x).getCategory().equals("Fire")){
                 color = BitmapDescriptorFactory.HUE_VIOLET;
-            }else if(mapObjects.get(x).getCategory().equals("natural")){
+            }else if(mapObjects.get(x).getCategory().equals("Natural")){
                 color = BitmapDescriptorFactory.HUE_BLUE;
             }else{
                 color = BitmapDescriptorFactory.HUE_AZURE;
@@ -205,7 +294,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mProvider = new HeatmapTileProvider.Builder()
                 .data(locations)
-                .radius(30)
+                .radius(60)
                 .gradient(gradient)
                 .build();
 
@@ -216,10 +305,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         Resources res = getResources();
-        String text = "<b>";
+        String text = " ";
+        String title = " ";
+        String cat = " ";
         for(int x = 0; x < mapObjects.size(); x++){
-            if(marker.equals(mapObjects.get(x).marker)){
-                text = text.concat(mapObjects.get(x).getDescription()).concat("</b>");
+            if(marker.getPosition().equals(mapObjects.get(x).getLatLng())){
+                text = (mapObjects.get(x).getDescription());
+                title = mapObjects.get(x).getName();
+                cat = mapObjects.get(x).getCategory();
                 break;
             }
         }
@@ -227,36 +320,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this
                 .findViewById(android.R.id.content)).getChildAt(0);
 
-        onButtonShowPopupWindow(viewGroup, text);
+        onButtonShowPopupWindow(viewGroup, text, title, cat);
 
 
 
         return false;
     }
 
-    public void onButtonShowPopupWindow(View view, String text){
+    public void onButtonShowPopupWindow(View view, String text, String title, String cat){
+
+        mMap.moveCamera(CameraUpdateFactory.zoomIn());
+
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window, null);
 
         TextView t = popupView.findViewById(R.id.popuptext);
         t.setText(text);
+        TextView e = popupView.findViewById(R.id.title);
+        e.setText(title);
+        TextView x = popupView.findViewById(R.id.category);
+        x.setText(cat);
 
         // create the popup window
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
         int height = LinearLayout.LayoutParams.WRAP_CONTENT;
         boolean focusable = true; // lets taps outside the popup also dismiss it
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-        //TextView pptext = (TextView) findViewById(R.id.popuptext);
-        //pptext.setText("LEO IS GAY");
-        // show the popup window
-        // which view you pass in doesn't matter, it is only used for the window tolken
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         // dismiss the popup window when touched
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                mMap.moveCamera(CameraUpdateFactory.zoomOut());
                 popupWindow.dismiss();
                 return true;
             }
