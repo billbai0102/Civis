@@ -72,9 +72,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mapObjects.add(new MapObject(
                 "Possible Gunshots",
-                "Gunshots have been heard near Main street, please be extremely cautious. One person seen laying on the ground",
+                "Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground",
                 "Emergency",
-                new LatLng(43.257165, -79.900799)
+                new LatLng(43.258296, -79.935160)
+        ));
+        mapObjects.add(new MapObject(
+                "Possible Gunshots",
+                "Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground",
+                "Emergency",
+                new LatLng(43.257496, -79.935150)
+        ));
+        mapObjects.add(new MapObject(
+                "Possible Gunshots",
+                "Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground",
+                "Emergency",
+                new LatLng(43.257286, -79.936150)
         ));
 
         mapObjects.add(new MapObject(
