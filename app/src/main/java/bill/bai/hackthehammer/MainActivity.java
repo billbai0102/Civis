@@ -1,8 +1,11 @@
 package bill.bai.hackthehammer;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -22,12 +25,15 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 
+import java.util.ArrayList;
+
 // https://script.google.com/macros/s/AKfycbzQBYHI41CKOZBdN82Ul5hOiLOcOc4V5bDW0lMCNbyCWKgqzuo/exec
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     // This is called upon application start
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // App startup
@@ -49,8 +55,17 @@ public class MainActivity extends AppCompatActivity
 //        drawer.addDrawerListener(toggle);
 //        toggle.syncState();
 
-        System.out.println("Fetching API data");
         // Fetch API data
+        System.out.println("Fetching API data");
+        ArrayList<MapObject> mapObjects = API.fetchData();
+
+//        for (MapObject mapObject : mapObjects) {
+//            System.out.println(mapObject.getName());
+//        }
+
+        ArrayList<MapObject> testPost = new ArrayList<>();
+        testPost.add(new MapObject("Johnny is a cool guy", "Please work", "Fire", new LatLng(-1, 1)));
+        API.postData(testPost);
 
         // Load home page
         System.out.println("Loading maps");

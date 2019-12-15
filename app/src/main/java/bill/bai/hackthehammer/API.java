@@ -1,5 +1,6 @@
 package bill.bai.hackthehammer;
 
+import android.os.AsyncTask;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import com.google.android.gms.maps.model.LatLng;
@@ -14,76 +15,109 @@ public class API {
     static String sheetsUrl =
             "https://script.google.com/macros/s/AKfycbzQBYHI41CKOZBdN82Ul5hOiLOcOc4V5bDW0lMCNbyCWKgqzuo/exec";
 
-    private static String fetchFromUrl(String url) {
-        try {
-            URL oracle = new URL(url);
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(oracle.openStream()));
+    // Sends string to provided url
+    private static class GetFromUrlTask extends AsyncTask<String, Integer, String> {
+        @Override
+        protected String doInBackground(String... string) {
+            String url_str = string[0];
 
-            StringBuilder returnStr = new StringBuilder();
+            try {
+                System.out.println(url_str);
 
-            String inputLine;
-            while ((inputLine = in.readLine()) != null)
-                returnStr.append(inputLine);
-            in.close();
+                URL url = new URL(url_str);
+                InputStreamReader isr = new InputStreamReader(url.openStream());
+                BufferedReader in = new BufferedReader(isr);
+                StringBuilder returnStr = new StringBuilder();
 
-            return returnStr.toString();
-        } catch (Exception e){
-            System.out.println(Arrays.toString(e.getStackTrace()));
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    System.out.println(inputLine);
+
+                    returnStr.append(inputLine);
+                }
+                in.close();
+
+
+                String result = returnStr.toString();
+                System.out.println("Received json string: " + result);
+                return result;
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return "";
         }
-
-        return "";
     }
 
     // Fetches map data from database
     public static ArrayList<MapObject> fetchData() {
         // Fetch data
-        String jsonStr = fetchFromUrl(sheetsUrl);
+        String jsonStr = null;
+        try {
+            jsonStr = new GetFromUrlTask().execute(sheetsUrl).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Deserialize to MapObject
         Gson gson = new Gson();
         MapObject[] mapObjectsArray = gson.fromJson(jsonStr, MapObject[].class);
 
         // Convert array to ArrayList
-        ArrayList<MapObject> mapObjects =
-                new ArrayList<>(Arrays.asList(mapObjectsArray));
+        ArrayList<MapObject> mapObjects = new ArrayList<>();
+
+        if (mapObjectsArray != null)
+            mapObjects.addAll(Arrays.asList(mapObjectsArray));
 
         return mapObjects;
     }
 
 
+    // #############################################
+    // POST
+    // #############################################//
+    //
     // Sends string to provided url
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void sendStr(String postUrl, String data) {
-        try {
-            // Sender
-            URL url = new URL(postUrl);
+    private static class SendPostTask extends AsyncTask<String, Integer, Void> {
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected Void doInBackground(String... string) {
+            try {
+                String postUrl = string[0];
+                String data = string[1];
 
-            URLConnection con = url.openConnection();
-            HttpURLConnection http = (HttpURLConnection)con;
-            http.setRequestMethod("POST"); // PUT is another valid option
-            http.setDoOutput(true);
+                // Sender
+                URL url = new URL(postUrl);
 
-            // Send json
-            byte[] out = data.getBytes(StandardCharsets.UTF_8);
-            int length = out.length;
+                URLConnection con = url.openConnection();
+                HttpURLConnection http = (HttpURLConnection)con;
+                http.setRequestMethod("POST"); // PUT is another valid option
+                http.setDoOutput(true);
 
-            http.setFixedLengthStreamingMode(length);
-            http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-            http.connect();
+                // Send json
+                byte[] out = data.getBytes(StandardCharsets.UTF_8);
+                int length = out.length;
 
-            try (OutputStream os = http.getOutputStream()) {
-                os.write(out);
+                http.setFixedLengthStreamingMode(length);
+                http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                http.connect();
+
+                try (OutputStream os = http.getOutputStream()) {
+                    os.write(out);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
-        } catch (Exception e) {
-            System.out.println(Arrays.toString(e.getStackTrace()));
+            return null;
         }
     }
 
     // Posts provided MapObjects to API url
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void postData(ArrayList<MapObject> mapObjects) {
+    public static void postData(ArrayList<MapObject> mapObjects) {
+        System.out.println("Posting data to database");
         try {
             // Post iteratively
             for (MapObject mapObject: mapObjects) {
@@ -103,11 +137,12 @@ public class API {
                     sj.add(URLEncoder.encode(entry.getKey(), "UTF-8") + "="
                             + URLEncoder.encode(entry.getValue(), "UTF-8"));
 
-                sendStr(sheetsUrl, sj.toString());
+                System.out.println(sj.toString());
+                new SendPostTask().execute(sheetsUrl, sj.toString()).get();
             }
 
         } catch (Exception e) {
-            System.out.println(Arrays.toString(e.getStackTrace()));
+            e.printStackTrace();
         }
     }
 }
