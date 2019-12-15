@@ -57,15 +57,15 @@ public class MainActivity extends AppCompatActivity
 //        toggle.syncState();
 
         // Fetch API data
-        System.out.println("Fetching API data");
-        ArrayList<MapObject> mapObjects = API.fetchData();
-        MapsActivity.mapObjects.addAll(mapObjects);
+
 
 //        ArrayList<MapObject> testPost = new ArrayList<>();
 //        testPost.add(new MapObject("Zooomer weeman", "CREEPER", "AWWW MAN, SO WE BACK IN THE MINE", 69, 420));
 //        testPost.add(new MapObject("Boomer man", "CREEPER", "AWWW MAN, SO WE BACK IN THE MINE", 69, 420));
 //
 //        API.postData(testPost);
+
+        MapsActivity.fetchAPIData();
 
         // Load home page
         System.out.println("Loading maps");
