@@ -110,6 +110,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 new LatLng(43.267165, -79.904799)
         ));
         mapObjects.add(new MapObject(
+                "Shop being robbed",
+                "Masked robber's seen near jewelry store near McMaster MIP",
+                "Criminal Activity",
+                new LatLng(43.267145, -79.904699)
+        ));
+
+
+
+        mapObjects.add(new MapObject(
                 "Burning Building",
                 "TD Bank Building is engulfed in fire, first responders haven't reached the scene yet. Take caution",
                 "Fire",
