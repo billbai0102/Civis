@@ -152,17 +152,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         for (MapObject mapObject : mapObjects) {
             float color;
-            switch (mapObject.getCategory()) {
-                case "Emergency":
+            switch (mapObject.getCategory().toLowerCase()) {
+                case "emergency":
                     color = BitmapDescriptorFactory.HUE_RED;
                     break;
-                case "Criminal Activity":
+                case "criminal activity":
                     color = BitmapDescriptorFactory.HUE_ORANGE;
                     break;
-                case "Fire":
-                    color = BitmapDescriptorFactory.HUE_VIOLET;
+                case "fire":
+                    color = BitmapDescriptorFactory.HUE_YELLOW;
                     break;
-                case "Natural":
+                case "natural":
                     color = BitmapDescriptorFactory.HUE_BLUE;
                     break;
                 default:
