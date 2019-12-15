@@ -57,7 +57,17 @@
               android:layout_height="match_parent"
               tools:context=".MapsActivity"
               tools:layout_editor_absoluteX="-130dp"
-              tools:layout_editor_absoluteY="-45dp" />
+              tools:layout_editor_absoluteY="-45dp"
+              />
+
+    <!--<ImageView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginLeft="8dp"-->
+        <!--android:background="@color/transparentOverlay"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/popupSwipeImage"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/popupSwipeImage" />-->
 
     <Button
             android:id="@+id/imageButton"
@@ -96,22 +106,33 @@
             app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-            android:id="@+id/heatButtonImage"
-            android:layout_width="83dp"
-            android:layout_height="87dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/toggleheatmapbutton"
-            android:onClick="toggleButton"
-            android:scaleX="0.75"
-            android:scaleY="0.75"
-            app:layout_constraintBottom_toBottomOf="@+id/map"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.026"
-            app:layout_constraintStart_toStartOf="parent" />
+    android:id="@+id/heatButtonImage"
+    android:layout_width="83dp"
+    android:layout_height="87dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginRight="40dp"
+    android:layout_marginBottom="16dp"
+    android:background="@drawable/toggleheatmapbutton"
+    android:onClick="toggleButton"
+    android:scaleX="0.75"
+    android:scaleY="0.75"
+    app:layout_constraintBottom_toBottomOf="@+id/map"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.026"
+    app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/helpbtn"
+        android:layout_width="29dp"
+        android:layout_height="39dp"
+        android:scaleY="0.7"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/helpbutton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
             android:id="@+id/heat2ButtonImage"
@@ -133,11 +154,12 @@
 
 
     <!-- Popup  Swipe image-->
-    <ImageView
+        <ImageView
             android:id="@+id/popupSwipeImage"
-            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
-    />
+            android:visibility="visible"
+            tools:layout_editor_absoluteX="-25dp"
+            tools:layout_editor_absoluteY="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

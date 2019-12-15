@@ -1,5 +1,6 @@
 package bill.bai.civis;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -7,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,6 +56,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         // App startup
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT > 15) {
+            addNotifBar();
+        }
+
+
         setContentView(R.layout.activity_main);
 
         // Fetch API data
@@ -81,6 +89,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Start the data auto refresh timer
         updateDataAsyncTask();
+    }
+
+    @TargetApi(21)
+    public void addNotifBar(){
+        Window window = this.getWindow();
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
     }
 
 
@@ -127,6 +141,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        if (Build.VERSION.SDK_INT > 15) {
+            addNotifBar();
+        }
+
         mMap = googleMap;
         // plotPoints(mMap, mapObjects);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.257165, -79.900799), 13));
@@ -187,6 +206,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
             mapObject.marker = marker;
         }
+
+        Marker marker = mMap.addMarker(new MarkerOptions().
+                position(new LatLng(43.256813, -79.900789))
+                .title("Your Location")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallguy)));
 
         mMap.setOnMarkerClickListener(this);
     }
@@ -258,6 +282,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .build();
 
         mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+
+        Marker marker = mMap.addMarker(new MarkerOptions().
+                position(new LatLng(43.256813, -79.900789))
+                .title("Your Location")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallguy)));
     }
 
 
@@ -403,6 +432,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         // BASE COLOR
         System.out.println("generating danger map... BASE");
         {
+
+
             List<LatLng> locations = new ArrayList<>();
 
             Random rand = new Random();
@@ -459,6 +490,11 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     .build();
 
             mOverlay = mMap.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+
+            Marker marker = mMap.addMarker(new MarkerOptions().
+                    position(new LatLng(43.256813, -79.900789))
+                    .title("Your Location")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.smallguy)));
         }
     }
 }
