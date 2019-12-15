@@ -354,8 +354,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                     Color.rgb(255, 43, 27),
             };
             float[] gradientStartPoints = {
-                    0.4f,
-                    1f,
+                    0.1f,
+                    0.5f,
             };
 
             Gradient gradient = new Gradient(gradientColors, gradientStartPoints);
