@@ -68,64 +68,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        // Data is fetched in MainActivity load
+
         mMap = googleMap;
-
-        mapObjects.add(new MapObject(
-                "Possible Gunshots",
-                "Gunshots have been heard near Main street, please be extremely cautious. One person seen laying on the ground",
-                "Emergency",
-                new LatLng(43.257165, -79.900799)
-        ));
-
-        mapObjects.add(new MapObject(
-                "Heist?",
-                "Jewelery Heist near McMaster MIP. Robbers wearing black masks and baggy clothing.",
-                "Criminal Activity",
-                new LatLng(43.267165, -79.900799)
-        ));
-        mapObjects.add(new MapObject(
-                "Burning Building",
-                "TD Bank Building is engulfed in fire, first responders haven't reached the scene yet. Take caution",
-                "Fire",
-                new LatLng(43.263290, -79.902583)
-        ));
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "3",
-                "Natural",
-                new LatLng(43.247165, -79.900799)
-        ));
-
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "4",
-                "Other",
-                new LatLng(43.258165, -79.900799)
-        ));
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "5",
-                "Other",
-                new LatLng(43.267165, -79.910799)
-        ));
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "6",
-                "Other",
-                new LatLng(43.255165, -79.909799)
-        ));
-        mapObjects.add(new MapObject(
-                "McMaster",
-                "aaa",
-                "Other",
-                new LatLng(43.248165, -79.900799)
-        ));
-
 //
 //        // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(43.257165, -79.900799);
 //        mMap.addMarker(new MarkerOptions().position(sydney).title("McMaster"));
-
 
         // plotPoints(mMap, mapObjects);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.257165, -79.900799), 13));

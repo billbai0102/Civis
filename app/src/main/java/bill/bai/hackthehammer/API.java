@@ -2,15 +2,14 @@ package bill.bai.hackthehammer;
 
 import android.os.AsyncTask;
 import android.os.Build;
-import android.telecom.Call;
 import androidx.annotation.RequiresApi;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.net.*;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.*;
 
 public class API {
     static String sheetsUrl =
