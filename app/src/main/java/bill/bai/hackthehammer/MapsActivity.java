@@ -1,5 +1,6 @@
 package bill.bai.hackthehammer;
 
+import android.os.Handler;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
@@ -32,9 +33,7 @@ import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -44,7 +43,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean isHeatMap = false;
 
     //TODO: Yes
-    public static ArrayList<MapObject> mapObjects = new ArrayList<MapObject>();
+    public static ArrayList<MapObject> mapObjects = new ArrayList<>();
+
+    public static void fetchAPIData() {
+        try {
+            System.out.println("Fetching API data");
+
+            ArrayList<MapObject> mapObjects = API.fetchData();
+            MapsActivity.mapObjects.addAll(mapObjects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateDataAsyncTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(MapsActivity::fetchAPIData);
+            }
+        };
+
+        timer.schedule(task, 60 * 1000, 60 * 1000);  // Every 1 minute
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +78,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // Start the data auto refresh timer
+        updateDataAsyncTask();
     }
 
 
