@@ -135,6 +135,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Ploting points is first
         plotPoints(mMap, mapObjects);
+        findViewById(R.id.pinButtonImage).setVisibility(View.VISIBLE);
+        findViewById(R.id.heatButtonImage).setVisibility(View.INVISIBLE);
+        findViewById(R.id.heat2ButtonImage).setVisibility(View.INVISIBLE);
+
     }
 
     public void plotPoints(GoogleMap googleMap, List<MapObject> mapObjects) {
@@ -194,12 +198,21 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
         switch (toggleButtonStage) {
             case 0:
+                findViewById(R.id.pinButtonImage).setVisibility(View.VISIBLE);
+                findViewById(R.id.heatButtonImage).setVisibility(View.INVISIBLE);
+                findViewById(R.id.heat2ButtonImage).setVisibility(View.INVISIBLE);
                 plotPoints(mMap, mapObjects);
                 break;
             case 1:
+                findViewById(R.id.pinButtonImage).setVisibility(View.INVISIBLE);
+                findViewById(R.id.heatButtonImage).setVisibility(View.VISIBLE);
+                findViewById(R.id.heat2ButtonImage).setVisibility(View.INVISIBLE);
                 drawHeatMap(mMap, mapObjects);
                 break;
             case 2:
+                findViewById(R.id.pinButtonImage).setVisibility(View.INVISIBLE);
+                findViewById(R.id.heatButtonImage).setVisibility(View.INVISIBLE);
+                findViewById(R.id.heat2ButtonImage).setVisibility(View.VISIBLE);
                 drawDangerMap();
                 break;
         }

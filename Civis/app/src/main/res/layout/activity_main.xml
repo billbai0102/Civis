@@ -78,7 +78,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-            android:id="@+id/buttonImage"
+            android:id="@+id/pinButtonImage"
             android:layout_width="83dp"
             android:layout_height="87dp"
             android:layout_marginStart="8dp"
@@ -86,7 +86,43 @@
             android:layout_marginEnd="15dp"
             android:layout_marginRight="40dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/heatmap_button"
+            android:background="@drawable/pinbutton"
+            android:onClick="toggleButton"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+            app:layout_constraintBottom_toBottomOf="@+id/map"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.026"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+            android:id="@+id/heatButtonImage"
+            android:layout_width="83dp"
+            android:layout_height="87dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/toggleheatmapbutton"
+            android:onClick="toggleButton"
+            android:scaleX="0.75"
+            android:scaleY="0.75"
+            app:layout_constraintBottom_toBottomOf="@+id/map"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.026"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+            android:id="@+id/heat2ButtonImage"
+            android:layout_width="83dp"
+            android:layout_height="87dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/toggleheatmapbutton2"
             android:onClick="toggleButton"
             android:scaleX="0.75"
             android:scaleY="0.75"
