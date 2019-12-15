@@ -141,6 +141,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+//    public static Camera getCameraInstance(){
+//        Camera c  = null;
+//        try{
+//            c = Camera.open();
+//        }catch(Exception e){
+//
+//        }
+//        return c;
+//    }
+
     public void plotPoints(GoogleMap googleMap, List<MapObject> mapObjects) {
         mMap = googleMap;
 
