@@ -265,6 +265,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void onButtonShowPopupWindow(View view, String text, String title, String cat){
+
+        mMap.moveCamera(CameraUpdateFactory.zoomIn());
+
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_window, null);
@@ -287,6 +290,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                mMap.moveCamera(CameraUpdateFactory.zoomOut());
                 popupWindow.dismiss();
                 return true;
             }
