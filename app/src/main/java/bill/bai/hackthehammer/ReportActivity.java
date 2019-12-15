@@ -25,9 +25,15 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class ReportActivity extends AppCompatActivity{
+
+    private Spinner spinner;
+    private static final String[] paths = {"item 1", "item 2", "item 3"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,20 @@ public class ReportActivity extends AppCompatActivity{
         TextView txT = (TextView)findViewById(R.id.report_title);
         Typeface custom_font2 = Typeface.createFromAsset(getAssets(),  "fonts/HelveticaNeue_Light.ttf");
         txT.setTypeface(custom_font2);
+
+        EditText etxT = (EditText)findViewById(R.id.report_title_edit);
+        etxT.setTypeface(custom_font2);
+
+        Spinner spinner = (Spinner) findViewById(R.id.report_type_dropdown);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.report_types_array, R.id.report_type_dropdown);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spinner.setAdapter(adapter);
+
+
     }
 
     @TargetApi(21)
