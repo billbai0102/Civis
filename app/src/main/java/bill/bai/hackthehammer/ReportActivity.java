@@ -36,6 +36,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class ReportActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     public ArrayAdapter<String> adapter;
@@ -148,6 +150,11 @@ public class ReportActivity extends AppCompatActivity implements AdapterView.OnI
          * SEND YO SHIT HERE
          * The above variables are used u just need to send them
          */
+        ArrayList<MapObject> testPost = new ArrayList<>();
+        // "Takes out current location"
+        testPost.add(new MapObject(title, description, typeSelected, 43.257009, -79.900810));
+
+        API.postData(testPost);
 
 
         Intent intent = new Intent(ReportActivity.this, MapsActivity.class);
