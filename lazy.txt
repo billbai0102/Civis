@@ -1,0 +1,65 @@
+Possible Gunshots
+Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground
+Emergency
+43.258296
+-79.935160
+Gunshots Heard
+Gunshots heard at Main St West & Osler Dr. Injured woman here!
+Emergency
+43.257496
+-79.935150
+Woman shot
+Gunshots have been heard near Main St West & Osler Dr, please be extremely cautious. One person seen laying on the ground
+Emergency
+43.257286
+-79.936150
+Heard gunshots
+I heard gunshots near Main St West & Osler Dr. No authorities shown up, be safe
+Emergency
+43.257796
+-79.935150
+Gunshots WARNING
+Heard 3 or so gunshots near Main St West & Osler Dr. Injured lady near scene, no police!
+Emergency
+43.255286
+-79.936150
+Heist?
+Jewelery Heist near McMaster MIP. Robbers wearing black masks and baggy clothing
+Criminal Activity
+43.267165
+-79.904799
+Shop being robbed
+Masked robber's seen near jewelry store near McMaster MIP
+Criminal Activity
+43.267145
+-79.904699
+Burning Building
+TD Bank Building is engulfed in fire, first responders haven't reached the scene yet. Take caution
+Fire
+43.263290
+-79.902583
+Bank on Fire
+TD bank currently on fire, fire is almost 1 block large now!
+Fire
+43.263260
+-79.902683
+Burst Pipelines
+Pipeline is flooding area near the brewery
+Natural
+43.255510
+-79.931509
+Burst Pipelines
+Pipeline is flooding area near the brewery
+Natural
+43.255231
+-79.931471
+Burst Pipelines
+Pipeline is flooding area near the brewery
+Natural
+43.255073
+-79.932121
+Burst Pipelines
+Pipeline is flooding area near the brewery
+Natural
+43.255686
+-79.931853

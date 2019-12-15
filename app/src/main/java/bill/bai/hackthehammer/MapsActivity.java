@@ -293,7 +293,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mProvider = new HeatmapTileProvider.Builder()
                 .data(locations)
-                .radius(60)
+                .radius(50)
                 .gradient(gradient)
                 .build();
 
