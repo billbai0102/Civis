@@ -34,8 +34,8 @@ function doPost(e) {
 
 function Twitter() {
   
-  var TWITTER_CONSUMER_KEY = "7pY54tdogYycbspCoVaV6fisP";
-  var TWITTER_CONSUMER_SECRET = "asLLVYaFrgh5gAeOW5F3DZizBK0zdfdEKQOI3hCtkZF301XGPV";
+  var TWITTER_CONSUMER_KEY = "";
+  var TWITTER_CONSUMER_SECRET = "";
   
   // Encode consumer key and secret
   var tokenUrl = "https://api.twitter.com/oauth2/token";
