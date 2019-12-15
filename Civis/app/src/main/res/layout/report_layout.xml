@@ -72,28 +72,28 @@
         app:layout_constraintTop_toTopOf="@id/report_type"
         app:layout_constraintLeft_toRightOf="@id/report_type"/>
 
-    <TextView
-        android:id="@+id/auth_present"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="28dp"
-        android:text="Authorities present?"
-        android:textColor="@android:color/white"
-        android:textSize="29dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/report_type" />
+<!--    <TextView-->
+<!--        android:id="@+id/auth_present"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:layout_marginLeft="28dp"-->
+<!--        android:text="Authorities present?"-->
+<!--        android:textColor="@android:color/white"-->
+<!--        android:textSize="29dp"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/report_type" />-->
 
-    <CheckBox
-        android:id="@+id/auth_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginStart="48dp"
-        android:buttonTint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/auth_present"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/auth_present" />
+<!--    <CheckBox-->
+<!--        android:id="@+id/auth_checkbox"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="48dp"-->
+<!--        android:layout_marginStart="48dp"-->
+<!--        android:buttonTint="@android:color/white"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/report_type"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintLeft_toRightOf="@id/report_type" />-->
 
     <TextView
         android:id="@+id/description_title"
@@ -105,7 +105,7 @@
         android:textColor="@android:color/white"
         android:textSize="29dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/auth_present"/>
+        app:layout_constraintTop_toBottomOf="@+id/report_type"/>
 
     <EditText
         android:id="@+id/description"

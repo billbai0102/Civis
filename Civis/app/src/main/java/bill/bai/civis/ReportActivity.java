@@ -55,8 +55,8 @@ public class ReportActivity extends AppCompatActivity implements AdapterView.OnI
         TextView rtxT = findViewById(R.id.report_type);
         rtxT.setTypeface(custom_font2);
 
-        TextView authT = findViewById(R.id.auth_present);
-        authT.setTypeface(custom_font2);
+//        TextView authT = findViewById(R.id.auth_present);
+//        authT.setTypeface(custom_font2);
 
         TextView descT = findViewById(R.id.description_title);
         descT.setTypeface(custom_font2);
@@ -114,8 +114,8 @@ public class ReportActivity extends AppCompatActivity implements AdapterView.OnI
     public void send_report(View f){
         EditText etxT = findViewById(R.id.report_title_edit);
         String title = etxT.getText().toString();
-        CheckBox chkbox = findViewById(R.id.auth_checkbox);
-        boolean is_auth_present = chkbox.isChecked();
+//        CheckBox chkbox = findViewById(R.id.auth_checkbox);
+//        boolean is_auth_present = chkbox.isChecked();
         EditText descT = findViewById(R.id.description);
 
         String description = descT.getText().toString();
@@ -125,7 +125,7 @@ public class ReportActivity extends AppCompatActivity implements AdapterView.OnI
         System.out.println("_______________________________");
         System.out.println("Title: " + title);
         System.out.println("Type: " + typeSelected);
-        System.out.println("Auth Present?: " + is_auth_present);
+//        System.out.println("Auth Present?: " + is_auth_present);
         System.out.println("Description: " + description);
         System.out.println("_______________________________");
 
